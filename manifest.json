@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Whisper Bot",
+  "version": "1.0",
+  "description": "Bot automatico per cliccare i pulsanti Direct Whisper",
+  "permissions": ["activeTab", "storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  }
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Sfondo circolare -->
+  <circle cx="64" cy="64" r="60" fill="#2196F3"/>
+  
+  <!-- Fumetto di dialogo -->
+  <path d="M30 45 L30 85 L45 85 L64 100 L64 30 L30 30 L30 45" fill="white"/>
+  <path d="M75 42 Q95 50 95 64 Q95 78 75 86" fill="none" stroke="white" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Simbolo automatico (due frecce circolari) -->
+  <path d="M80 25 A20 20 0 1 1 60 25" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  <path d="M60 103 A20 20 0 1 1 80 103" fill="none" stroke="white" stroke-width="6" stroke-linecap="round"/>
+</svg>
