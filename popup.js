@@ -209,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Update functions
   function updateStatus(enabled) {
     statusText.textContent = enabled ? "Enabled" : "Disabled";
-    statusText.style.color = enabled ? "#2196F3" : "#666";
+    statusText.style.color = enabled ? "#4608ac" : "#666";
   }
 
   function updateStats(stats) {
