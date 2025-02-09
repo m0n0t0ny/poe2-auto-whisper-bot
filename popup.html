@@ -4,29 +4,129 @@
 <head>
   <meta charset="UTF-8">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
     body {
-      width: 200px;
-      padding: 10px;
-      font-family: Arial, sans-serif;
+      width: 320px;
+      margin: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      border-radius: 12px;
+      overflow: hidden;
     }
 
     .container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 16px;
+      background: white;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .header h2 {
+      font-size: 20px;
+      color: #2196F3;
+      font-weight: 600;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      border: 1px solid #eee;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #444;
+      font-weight: 600;
     }
 
     .status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #eee;
+    }
+
+    .stats {
+      background: #fff;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .stat-item {
       text-align: center;
-      margin-bottom: 10px;
-      font-weight: bold;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2196F3;
+    }
+
+    .settings {
+      background: #fff;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+
+    .setting-item span {
+      font-size: 14px;
+      color: #555;
     }
 
     .switch {
       position: relative;
       display: inline-block;
-      width: 60px;
-      height: 34px;
+      width: 44px;
+      height: 24px;
     }
 
     .switch input {
@@ -43,19 +143,19 @@
       right: 0;
       bottom: 0;
       background-color: #ccc;
-      transition: .4s;
-      border-radius: 34px;
+      transition: .3s;
+      border-radius: 24px;
     }
 
     .slider:before {
       position: absolute;
       content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
       background-color: white;
-      transition: .4s;
+      transition: .3s;
       border-radius: 50%;
     }
 
@@ -64,19 +164,240 @@
     }
 
     input:checked+.slider:before {
-      transform: translateX(26px);
+      transform: translateX(20px);
+    }
+
+    .input-field {
+      width: 80px;
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #2196F3;
+    }
+
+    .whitelist-section {
+      background: #fff;
+    }
+
+    .url-list {
+      max-height: 120px;
+      overflow-y: auto;
+      margin: 12px 0;
+      padding: 4px;
+      background: #f8f9fa;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+
+    .url-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 4px;
+      border: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    .url-input {
+      display: flex;
+      gap: 8px;
+    }
+
+    .url-input input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .url-input input:focus {
+      outline: none;
+      border-color: #2196F3;
+    }
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      background: #2196F3;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #1976D2;
+    }
+
+    button.remove-url {
+      padding: 4px 8px;
+      background: #ff4444;
+      font-size: 12px;
+    }
+
+    button.remove-url:hover {
+      background: #cc0000;
+    }
+
+    .rate-limit-section {
+      background: #fff;
+    }
+
+    .rate-limit-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .rate-limit-input {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rate-limit-input label {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #999;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="status">Bot Status: <span id="botStatus">Disabled</span></div>
+    <div class="header">
+      <h2>Auto Whisper Bot</h2>
+    </div>
 
-    <label class="switch">
-      <input type="checkbox" id="botToggle">
-      <span class="slider"></span>
-    </label>
+    <div class="card">
+      <div class="status">
+        <span>Status</span>
+        <div>
+          <label class="switch">
+            <input type="checkbox" id="botToggle">
+            <span class="slider"></span>
+          </label>
+          <span id="botStatus">Disabled</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card stats">
+      <h3>Statistics</h3>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-label">Total Clicks</div>
+          <div class="stat-value" id="totalClicks">0</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Success Rate</div>
+          <div class="stat-value" id="successRate">0%</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Uptime</div>
+          <div class="stat-value" id="uptime">0m</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">Last Click</div>
+          <div class="stat-value" id="lastClick">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card settings">
+      <h3>Settings</h3>
+      <div class="setting-item">
+        <span>Click Delay (ms)</span>
+        <input type="number" id="clickDelay" class="input-field" min="500" max="5000" step="100" value="1000">
+      </div>
+      <div class="setting-item">
+        <span>Enable Logging</span>
+        <label class="switch">
+          <input type="checkbox" id="loggingToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <span>Auto Retry</span>
+        <label class="switch">
+          <input type="checkbox" id="retryToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="card whitelist-section">
+      <div class="setting-item">
+        <span>Use Whitelist</span>
+        <label class="switch">
+          <input type="checkbox" id="whitelistToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div id="whitelistContent" style="display: none;">
+        <div class="url-list" id="whitelistUrls"></div>
+        <div class="url-input">
+          <input type="text" id="newUrlInput" placeholder="Enter URL pattern">
+          <button id="addUrl">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card rate-limit-section">
+      <div class="setting-item">
+        <span>Enable Rate Limit</span>
+        <label class="switch">
+          <input type="checkbox" id="rateLimitToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div id="rateLimitContent" style="display: none;">
+        <div class="rate-limit-inputs">
+          <div class="rate-limit-input">
+            <label>Max Clicks</label>
+            <input type="number" id="maxClicks" class="input-field" min="1" max="100" value="5">
+          </div>
+          <div class="rate-limit-input">
+            <label>Time Window (sec)</label>
+            <input type="number" id="timeWindow" class="input-field" min="1" max="3600" value="30">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button id="resetStats">Reset Statistics</button>
   </div>
   <script src="popup.js"></script>
 </body>
