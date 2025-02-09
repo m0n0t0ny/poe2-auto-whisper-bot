@@ -2,23 +2,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggle = document.getElementById("botToggle");
   const statusText = document.getElementById("botStatus");
 
-  // Carica lo stato iniziale
+  // Load initial state
   chrome.storage.local.get(["botEnabled"], function (result) {
     toggle.checked = result.botEnabled || false;
     updateStatus(result.botEnabled);
   });
 
-  // Gestisce il cambio di stato
+  // Handle state change
   toggle.addEventListener("change", function () {
     const isEnabled = toggle.checked;
 
-    // Salva lo stato
+    // Save state
     chrome.storage.local.set({ botEnabled: isEnabled });
 
-    // Aggiorna lo stato visuale
+    // Update visual status
     updateStatus(isEnabled);
 
-    // Invia un messaggio al content script
+    // Send message to content script
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {
         action: isEnabled ? "startBot" : "stopBot"
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   function updateStatus(enabled) {
-    statusText.textContent = enabled ? "Attivato" : "Disattivato";
+    statusText.textContent = enabled ? "Enabled" : "Disabled";
     statusText.style.color = enabled ? "#2196F3" : "#666";
   }
 });

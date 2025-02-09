@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Auto Whisper Bot",
   "version": "1.0",
-  "description": "Bot automatico per cliccare i pulsanti Direct Whisper",
+  "description": "Bot for PoE2 trading that automatically clicks Direct Whisper buttons when they appear",
   "permissions": ["activeTab", "storage"],
   "action": {
     "default_popup": "popup.html",

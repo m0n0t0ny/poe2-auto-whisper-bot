@@ -1,28 +1,28 @@
-// Manteniamo il riferimento all'observer
+// Keep observer reference
 let observer = null;
 let lastClickTime = 0;
-const CLICK_DELAY = 1000; // 1 secondo di delay tra i click
+const CLICK_DELAY = 1000; // 1 second delay between clicks
 
-// Funzione per cliccare il pulsante con delay
+// Function to click button with delay
 async function clickDirectWhisperButton(button) {
   const now = Date.now();
   if (now - lastClickTime < CLICK_DELAY) {
-    console.log("Aspetto il delay prima del prossimo click...");
+    console.log("Waiting for delay before next click...");
     await new Promise((resolve) => setTimeout(resolve, CLICK_DELAY));
   }
 
-  console.log("Tentativo di click sul pulsante:", button);
+  console.log("Attempting to click button:", button);
   try {
-    // Verifica se il pulsante è ancora nel DOM
+    // Check if button is still in DOM
     if (!document.contains(button)) {
-      console.log("Il pulsante non è più nel DOM");
+      console.log("Button is no longer in DOM");
       return;
     }
 
-    // Verifica se il pulsante è visibile
+    // Check if button is visible
     const rect = button.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) {
-      console.log("Il pulsante non è visibile");
+      console.log("Button is not visible");
       return;
     }
 
@@ -33,13 +33,13 @@ async function clickDirectWhisperButton(button) {
     });
     button.dispatchEvent(clickEvent);
     lastClickTime = Date.now();
-    console.log("Click eseguito con successo");
+    console.log("Click executed successfully");
   } catch (error) {
-    console.error("Errore durante il click:", error);
+    console.error("Error during click:", error);
   }
 }
 
-// Funzione per verificare se un elemento è il pulsante target
+// Function to check if element is target button
 function isTargetButton(element) {
   try {
     const isButton = element.tagName === "BUTTON";
@@ -48,52 +48,52 @@ function isTargetButton(element) {
     const isVisible = element.offsetParent !== null;
     const isEnabled = !element.disabled;
 
-    console.log("Verifica pulsante:", {
-      elemento: element,
+    console.log("Button check:", {
+      element: element,
       isButton,
-      "testo trovato": text,
-      "testo corretto": isCorrectText,
-      visibile: isVisible,
-      abilitato: isEnabled
+      "found text": text,
+      "correct text": isCorrectText,
+      visible: isVisible,
+      enabled: isEnabled
     });
 
     return isButton && isCorrectText && isVisible && isEnabled;
   } catch (error) {
-    console.error("Errore durante la verifica del pulsante:", error);
+    console.error("Error during button check:", error);
     return false;
   }
 }
 
-// Funzione per processare i nodi con rate limiting
+// Function to process nodes with rate limiting
 function processNode(node) {
   if (node.nodeType === Node.ELEMENT_NODE) {
-    // Cerca pulsanti target nei figli
+    // Search for target buttons in children
     const buttons = node.querySelectorAll("button");
     Array.from(buttons).forEach((button) => {
       if (isTargetButton(button)) {
-        console.log("Trovato pulsante target:", button);
+        console.log("Found target button:", button);
         clickDirectWhisperButton(button);
       }
     });
   }
 }
 
-// Configurazione dell'observer
+// Observer configuration
 const observerConfig = {
   childList: true,
   subtree: true,
   attributes: true
 };
 
-// Funzione per avviare il bot
+// Function to start bot
 function startBot() {
-  console.log("Avvio del bot...");
+  console.log("Starting bot...");
   if (observer) {
-    console.log("Bot già in esecuzione");
+    console.log("Bot already running");
     return;
   }
 
-  // Cerca e clicca eventuali pulsanti già presenti
+  // Search and click any existing buttons
   const existingButtons = document.querySelectorAll("button");
   Array.from(existingButtons).forEach((button) => {
     if (isTargetButton(button)) {
@@ -101,7 +101,7 @@ function startBot() {
     }
   });
 
-  // Crea e avvia l'observer con debounce
+  // Create and start observer with debounce
   let timeoutId = null;
   observer = new MutationObserver((mutations) => {
     if (timeoutId) {
@@ -116,23 +116,23 @@ function startBot() {
           });
         }
       });
-    }, 100); // Debounce di 100ms
+    }, 100); // 100ms debounce
   });
 
   observer.observe(document.body, observerConfig);
-  console.log("Bot avviato e in ascolto...");
+  console.log("Bot started and listening...");
 }
 
-// Funzione per fermare il bot
+// Function to stop bot
 function stopBot() {
   if (observer) {
     observer.disconnect();
     observer = null;
-    console.log("Bot fermato.");
+    console.log("Bot stopped.");
   }
 }
 
-// Gestione dei messaggi dall'estensione
+// Handle extension messages
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "startBot") {
     startBot();
@@ -141,7 +141,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Controlla lo stato iniziale
+// Check initial state
 chrome.storage.local.get(["botEnabled"], function (result) {
   if (result.botEnabled) {
     startBot();
